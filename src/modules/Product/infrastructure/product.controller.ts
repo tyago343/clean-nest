@@ -5,6 +5,7 @@ import { UseCaseProxy } from 'src/shared/infrastructure/usecases.proxy';
 import { addProductUseCases } from '../application/usecases/create.product';
 import { CreateProductDto } from './product.dto';
 import { ProductPresenter } from './product.presenter';
+import { getAllProductUseCases } from '../application/usecases/findAll.product';
 
 @Controller('products')
 @ApiTags('products')
@@ -13,6 +14,8 @@ export class ProductController {
   constructor(
     @Inject(ProductUsecasesProxyModule.POST_PRODUCT_USECASES_PROXY)
     private readonly postProductUsecasesProxy: UseCaseProxy<addProductUseCases>,
+    @Inject(ProductUsecasesProxyModule.GET_ALL_PRODUCTS_USECASES_PROXY)
+    private readonly getAllProductsUsecasesProxy: UseCaseProxy<getAllProductUseCases>,
   ) {}
   @Post('/')
   @ApiResponse({ status: 201, description: 'Product created' })
@@ -31,6 +34,6 @@ export class ProductController {
   @Get('/')
   @ApiResponse({ status: 200, description: 'Products found' })
   async getProducts() {
-    return [];
+    return await this.getAllProductsUsecasesProxy.getInstance().execute();
   }
 }

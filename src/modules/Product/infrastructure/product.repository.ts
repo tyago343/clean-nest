@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import ProductRepository from '../../domain/product.repository';
+import ProductRepository from '../domain/product.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from '../product.entity';
+import { Product } from './product.entity';
 import { Repository } from 'typeorm';
 @Injectable()
 export class DatabaseProductRepository implements ProductRepository {
@@ -47,6 +47,6 @@ export class DatabaseProductRepository implements ProductRepository {
     return updatedProduct;
   }
   findAll(): Promise<Product[]> {
-    throw new Error('Method not implemented.');
+    return this.productEntityRepository.find();
   }
 }

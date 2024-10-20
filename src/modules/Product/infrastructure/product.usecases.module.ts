@@ -5,10 +5,11 @@ import { ExceptionsModule } from 'src/shared/infrastructure/exceptions/exception
 import { LoggerModule } from 'src/shared/infrastructure/logger/logger.module';
 import { LoggerService } from 'src/shared/infrastructure/logger/logger.service';
 
-import { DatabaseProductRepository } from './repositories/product.repository';
+import { DatabaseProductRepository } from './product.repository';
 import { UseCaseProxy } from '../../../shared/infrastructure/usecases.proxy';
 import { EnvironmentConfigModule } from 'src/shared/infrastructure/config/environment-config/environment-config.module';
 import { RepositoriesModule } from 'src/shared/infrastructure/repositories/repositories.module';
+import { getAllProductUseCases } from '../application/usecases/findAll.product';
 @Module({
   imports: [
     LoggerModule,
@@ -19,6 +20,7 @@ import { RepositoriesModule } from 'src/shared/infrastructure/repositories/repos
 })
 export class ProductUsecasesProxyModule {
   static POST_PRODUCT_USECASES_PROXY = 'postProductUsecasesProxy';
+  static GET_ALL_PRODUCTS_USECASES_PROXY = 'getAllProductsUsecasesProxy';
   static register(): DynamicModule {
     return {
       module: ProductUsecasesProxyModule,
@@ -33,8 +35,23 @@ export class ProductUsecasesProxyModule {
             return new UseCaseProxy(new addProductUseCases(productRepository));
           },
         },
+        {
+          inject: [LoggerService, DatabaseProductRepository],
+          provide: ProductUsecasesProxyModule.GET_ALL_PRODUCTS_USECASES_PROXY,
+          useFactory: (
+            logger: LoggerService,
+            productRepository: DatabaseProductRepository,
+          ) => {
+            return new UseCaseProxy(
+              new getAllProductUseCases(productRepository),
+            );
+          },
+        },
       ],
-      exports: [ProductUsecasesProxyModule.POST_PRODUCT_USECASES_PROXY],
+      exports: [
+        ProductUsecasesProxyModule.POST_PRODUCT_USECASES_PROXY,
+        ProductUsecasesProxyModule.GET_ALL_PRODUCTS_USECASES_PROXY,
+      ],
     };
   }
 }

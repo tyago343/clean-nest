@@ -5,6 +5,6 @@ export default interface ProductRepository {
   findByName(name: string): Promise<Product | null>;
   findById(id: string): Promise<Product | null>;
   remove(id: string): Promise<void>;
-  update(id: string, product: Product): Promise<Product | null>;
+  update(id: string, product: Partial<Product>): Promise<Product | null>;
   findAll(): Promise<Product[]>;
 }
