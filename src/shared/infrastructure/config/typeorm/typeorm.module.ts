@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { EnvironmentConfigService } from '../environment-config/environment-config.service';
 import { EnvironmentConfigModule } from '../environment-config/environment-config.module';
+import { Product } from 'src/modules/Product/infrastructure/product.entity';
 export const getTypeOrmModuleOptions = (
   config: EnvironmentConfigService,
 ): TypeOrmModuleOptions =>
@@ -12,7 +13,7 @@ export const getTypeOrmModuleOptions = (
     username: config.getDatabaseUser(),
     password: config.getDatabasePassword(),
     database: config.getDatabaseName(),
-    entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
+    entities: [Product],
     synchronize: true,
     schema: process.env.DATABASE_SCHEMA,
     // ssl: {

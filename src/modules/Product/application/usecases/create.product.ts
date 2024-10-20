@@ -14,12 +14,13 @@ export class addProductUseCases {
     price: number;
     description: string;
     images?: string[];
-  }): Promise<void> {
+  }): Promise<Product> {
     const product = new Product();
     product.name = name;
     product.price = price;
     product.description = description;
     product.images = images;
     await this.productRepository.save(product);
+    return product;
   }
 }

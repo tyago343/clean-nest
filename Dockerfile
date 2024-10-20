@@ -10,9 +10,6 @@ COPY package.json yarn.lock ./
 # Instala las dependencias del proyecto
 RUN yarn install
 
-# Copia el resto del código de la aplicación al directorio de trabajo
-COPY . .
-
 # Expone el puerto en el que la aplicación se ejecutará
 EXPOSE 3000
 
