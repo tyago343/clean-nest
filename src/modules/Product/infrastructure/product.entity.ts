@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
@@ -12,15 +13,19 @@ export class Product {
   id: string;
 
   @Column({ nullable: false })
+  @ApiProperty()
   name: string;
 
   @Column({ nullable: false })
+  @ApiProperty()
   price: number;
 
   @Column({ nullable: false })
+  @ApiProperty()
   description: string;
 
   @Column('simple-array', { nullable: true })
+  @ApiProperty()
   images?: string[];
 
   @CreateDateColumn({ name: 'created_at' })

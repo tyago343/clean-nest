@@ -10,6 +10,7 @@ import { UseCaseProxy } from '../../../shared/infrastructure/usecases.proxy';
 import { EnvironmentConfigModule } from 'src/shared/infrastructure/config/environment-config/environment-config.module';
 import { RepositoriesModule } from 'src/shared/infrastructure/repositories/repositories.module';
 import { getAllProductUseCases } from '../application/usecases/findAll.product';
+import { getByIdProductUseCases } from '../application/usecases/findById.product';
 @Module({
   imports: [
     LoggerModule,
@@ -21,6 +22,7 @@ import { getAllProductUseCases } from '../application/usecases/findAll.product';
 export class ProductUsecasesProxyModule {
   static POST_PRODUCT_USECASES_PROXY = 'postProductUsecasesProxy';
   static GET_ALL_PRODUCTS_USECASES_PROXY = 'getAllProductsUsecasesProxy';
+  static GET_PRODUCT_BY_ID_USECASES_PROXY = 'getProductByIdUsecasesProxy';
   static register(): DynamicModule {
     return {
       module: ProductUsecasesProxyModule,
@@ -47,10 +49,23 @@ export class ProductUsecasesProxyModule {
             );
           },
         },
+        {
+          inject: [LoggerService, DatabaseProductRepository],
+          provide: ProductUsecasesProxyModule.GET_PRODUCT_BY_ID_USECASES_PROXY,
+          useFactory: (
+            logger: LoggerService,
+            productRepository: DatabaseProductRepository,
+          ) => {
+            return new UseCaseProxy(
+              new getByIdProductUseCases(productRepository),
+            );
+          },
+        },
       ],
       exports: [
         ProductUsecasesProxyModule.POST_PRODUCT_USECASES_PROXY,
         ProductUsecasesProxyModule.GET_ALL_PRODUCTS_USECASES_PROXY,
+        ProductUsecasesProxyModule.GET_PRODUCT_BY_ID_USECASES_PROXY,
       ],
     };
   }
