@@ -18,5 +18,34 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
+    "paths": {
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@shared/*": [
+        "src/shared/*"
+      ],
+      "@config/*": [
+        "src/shared/infrastructure/config/*"
+      ],
+      "@logger/*": [
+        "src/shared/infrastructure/logger/*"
+      ],
+      "@exceptions/*": [
+        "src/shared/infrastructure/exceptions/*"
+      ],
+      "@repositories/*": [
+        "src/shared/infrastructure/repositories/*"
+      ],
+      "@product/*": [
+        "src/modules/Product/*"
+      ],
+      "@user/*": [
+        "src/modules/User/*"
+      ],
+      "@category/*": [
+        "src/modules/Category/*"
+      ]
+    }
   }
 }

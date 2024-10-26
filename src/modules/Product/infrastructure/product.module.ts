@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ProductUsecasesProxyModule } from './product.usecases.module';
-import { ProductController } from './product.controller';
+import { ProductUsecasesProxyModule } from '@product/infrastructure/product.usecases.module';
+import { ProductController } from '@product/infrastructure/product.controller';
 
 @Module({
   imports: [ProductUsecasesProxyModule.register()],

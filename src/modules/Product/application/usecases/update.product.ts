@@ -1,5 +1,5 @@
-import Product from '../../domain/Product';
-import ProductRepository from '../../domain/product.repository';
+import Product from '@product/domain/Product';
+import ProductRepository from '@product/domain/product.repository';
 
 export class UpdateProductUseCases {
   constructor(private readonly productRepository: ProductRepository) {}

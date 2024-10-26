@@ -1,17 +1,18 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { addProductUseCases } from '../application/usecases/create.product';
+import { addProductUseCases } from '@product/application/usecases/create.product';
 
-import { ExceptionsModule } from 'src/shared/infrastructure/exceptions/exceptions.module';
-import { LoggerModule } from 'src/shared/infrastructure/logger/logger.module';
-import { LoggerService } from 'src/shared/infrastructure/logger/logger.service';
+import { ExceptionsModule } from '@exceptions/exceptions.module';
+import { LoggerModule } from '@logger/logger.module';
+import { LoggerService } from '@logger/logger.service';
 
-import { DatabaseProductRepository } from './product.repository';
-import { UseCaseProxy } from '../../../shared/infrastructure/usecases.proxy';
-import { EnvironmentConfigModule } from 'src/shared/infrastructure/config/environment-config/environment-config.module';
-import { RepositoriesModule } from 'src/shared/infrastructure/repositories/repositories.module';
-import { getAllProductUseCases } from '../application/usecases/findAll.product';
-import { getByIdProductUseCases } from '../application/usecases/findById.product';
-import { UpdateProductUseCases } from '../application/usecases/update.product';
+import { DatabaseProductRepository } from '@product/infrastructure/product.repository';
+import { UseCaseProxy } from '@shared/infrastructure/usecases.proxy';
+import { EnvironmentConfigModule } from '@config/environment-config/environment-config.module';
+import { RepositoriesModule } from '@repositories/repositories.module';
+import { getAllProductUseCases } from '@product/application/usecases/findAll.product';
+import { getByIdProductUseCases } from '@product/application/usecases/findById.product';
+import { UpdateProductUseCases } from '@product/application/usecases/update.product';
+
 @Module({
   imports: [
     LoggerModule,
