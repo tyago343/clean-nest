@@ -19,3 +19,24 @@ export class CreateProductDto {
   @IsArray()
   images?: string[];
 }
+export class UpdateProductDto {
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  name?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  description?: string;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  price?: number;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsArray()
+  images?: string[];
+}

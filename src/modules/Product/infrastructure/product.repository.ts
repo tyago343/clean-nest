@@ -37,7 +37,7 @@ export class DatabaseProductRepository implements ProductRepository {
   async remove(id: string): Promise<void> {
     await this.productEntityRepository.delete({ id });
   }
-  async update(id: string, product: Product): Promise<Product | null> {
+  async update(id: string, product: Partial<Product>): Promise<Product | null> {
     const savedProduct = this.findById(id);
     if (!savedProduct) {
       return null;

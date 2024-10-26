@@ -1,12 +1,21 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProductUsecasesProxyModule } from './product.usecases.module';
 import { UseCaseProxy } from 'src/shared/infrastructure/usecases.proxy';
 import { addProductUseCases } from '../application/usecases/create.product';
-import { CreateProductDto } from './product.dto';
+import { CreateProductDto, UpdateProductDto } from './product.dto';
 import { ProductPresenter } from './product.presenter';
 import { getAllProductUseCases } from '../application/usecases/findAll.product';
 import { getByIdProductUseCases } from '../application/usecases/findById.product';
+import { UpdateProductUseCases } from '../application/usecases/update.product';
 
 @Controller('products')
 @ApiTags('products')
@@ -19,6 +28,8 @@ export class ProductController {
     private readonly getAllProductsUsecasesProxy: UseCaseProxy<getAllProductUseCases>,
     @Inject(ProductUsecasesProxyModule.GET_PRODUCT_BY_ID_USECASES_PROXY)
     private readonly getProductByIdUsecasesProxy: UseCaseProxy<getByIdProductUseCases>,
+    @Inject(ProductUsecasesProxyModule.UPDATE_PRODUCT_USECASES_PROXY)
+    private readonly updateProductuseCasesProxy: UseCaseProxy<UpdateProductUseCases>,
   ) {}
   @Post('/')
   @ApiOperation({ summary: 'Create a new product' })
@@ -44,5 +55,17 @@ export class ProductController {
   @ApiResponse({ status: 200, description: 'Product found' })
   async getProductById(@Param('id') id: string) {
     return await this.getProductByIdUsecasesProxy.getInstance().execute(id);
+  }
+  @Patch('/:id')
+  @ApiResponse({ status: 200, description: 'Product updated' })
+  async updateProduct(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    const { name, price, description, images } = updateProductDto;
+    const updatedProduct = await this.updateProductuseCasesProxy
+      .getInstance()
+      .execute({ id, name, price, description, images });
+    return new ProductPresenter(updatedProduct);
   }
 }
