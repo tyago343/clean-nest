@@ -15,11 +15,7 @@ export class addProductUseCases {
     description: string;
     images?: string[];
   }): Promise<Product> {
-    const product = new Product();
-    product.name = name;
-    product.price = price;
-    product.description = description;
-    product.images = images;
+    const product = new Product(name, price, description, images);
     await this.productRepository.save(product);
     return product;
   }
