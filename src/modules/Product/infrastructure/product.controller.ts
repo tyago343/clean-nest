@@ -18,7 +18,7 @@ import { getByIdProductUseCases } from '../application/usecases/findById.product
 import { UpdateProductUseCases } from '../application/usecases/update.product';
 
 @Controller('products')
-@ApiTags('products')
+@ApiTags('Products')
 @ApiResponse({ status: 500, description: 'Internal Server Error' })
 export class ProductController {
   constructor(
@@ -32,8 +32,14 @@ export class ProductController {
     private readonly updateProductuseCasesProxy: UseCaseProxy<UpdateProductUseCases>,
   ) {}
   @Post('/')
-  @ApiOperation({ summary: 'Create a new product' })
-  @ApiResponse({ status: 201, description: 'Product created' })
+  @ApiOperation({
+    summary: 'Create a new product',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Product created',
+    type: ProductPresenter,
+  })
   async createProduct(@Body() createProductDto: CreateProductDto) {
     const { name, price, description, images } = createProductDto;
     const newProduct = await this.postProductUsecasesProxy
@@ -47,17 +53,29 @@ export class ProductController {
     return new ProductPresenter(newProduct);
   }
   @Get('/')
-  @ApiResponse({ status: 200, description: 'Products found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Products found',
+    type: [ProductPresenter],
+  })
   async getProducts() {
     return await this.getAllProductsUsecasesProxy.getInstance().execute();
   }
   @Get('/:id')
-  @ApiResponse({ status: 200, description: 'Product found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Product found',
+    type: ProductPresenter,
+  })
   async getProductById(@Param('id') id: string) {
     return await this.getProductByIdUsecasesProxy.getInstance().execute(id);
   }
   @Patch('/:id')
-  @ApiResponse({ status: 200, description: 'Product updated' })
+  @ApiResponse({
+    status: 200,
+    description: 'Product updated',
+    type: ProductPresenter,
+  })
   async updateProduct(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
