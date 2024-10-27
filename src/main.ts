@@ -5,7 +5,9 @@ import {
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-
+import multipart from '@fastify/multipart';
+import fastifyStatic from '@fastify/static';
+import * as path from 'path';
 async function bootstrap() {
   const ENV = process.env.NODE_ENV;
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -23,6 +25,11 @@ async function bootstrap() {
     SwaggerModule.setup('api/v1', app, document);
   }
   app.enableCors();
+  app.register(fastifyStatic, {
+    root: path.join(__dirname, '..', 'public'),
+    prefix: '/public/',
+  });
+  await app.register(multipart);
   await app.listen(3000, '0.0.0.0');
 }
 bootstrap();

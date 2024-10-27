@@ -10,6 +10,12 @@ COPY package.json yarn.lock ./
 # Instala las dependencias del proyecto
 RUN yarn install
 
+# Crea la carpeta para las imágenes
+RUN mkdir -p public/images/tmp
+
+# Copia el resto de la aplicación
+COPY . .
+
 # Expone el puerto en el que la aplicación se ejecutará
 EXPOSE 3000
 

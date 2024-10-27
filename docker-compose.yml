@@ -8,6 +8,7 @@ services:
     env_file: ./.env
     volumes:
       - ./.:/usr/src/app
+      - ./public/images/tmp:/usr/src/app/public/images/tmp
     ports:
       - '3000:3000'
     environment:

@@ -45,6 +45,9 @@
       ],
       "@category/*": [
         "src/modules/Category/*"
+      ],
+      "@image/*": [
+        "src/modules/Image/*"
       ]
     }
   }
