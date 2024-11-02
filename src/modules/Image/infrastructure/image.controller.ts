@@ -8,12 +8,8 @@ import {
 import { ImageUsecasesProxyModule } from './image.usecases.module';
 import { UseCaseProxy } from '@shared/infrastructure/usecases.proxy';
 import { saveTemporalImageUseCases } from '../application/usecases/saveTemporal.image';
-// import { MemoryStorageFile } from '@blazity/nest-file-fastify';
 
-// import { pipeline } from 'stream';
 import { FastifyRequest } from 'fastify';
-import * as fs from 'fs';
-import * as path from 'path';
 
 @Controller('images')
 @ApiTags('Images')
@@ -37,14 +33,9 @@ export class ImageController {
     if (!data) {
       return { message: 'No file uploaded' };
     }
-    const savePath = path.resolve('public/images/tmp', data.filename);
-    const fileStream = fs.createWriteStream(savePath);
-    await new Promise((resolve, reject) => {
-      data.file.pipe(fileStream);
-      data.file.on('end', resolve);
-      data.file.on('error', reject);
-    });
-    console.log('File saved successfully', this.saveTemporalImageUsecasesProxy);
-    return { message: 'File saved successfully', path: savePath };
+    const newImage = await this.saveTemporalImageUsecasesProxy
+      .getInstance()
+      .execute(data);
+    return { message: 'File saved successfully', image: newImage };
   }
 }

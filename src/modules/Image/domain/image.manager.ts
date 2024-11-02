@@ -1,7 +1,7 @@
 import Image from './Image';
 
 interface ImageManager {
-  saveTemporalImage(image: Image): Promise<Image>;
+  saveTemporalImage(image: unknown): Promise<Image>;
   removeTemporalImage(route: string): Promise<void>;
   findTemporalImageByPath(route: string): Promise<Image | null>;
   saveImage(image: Image): Promise<Image>;
